@@ -1,6 +1,9 @@
 package entity
 
-import "errors"
+import (
+	"errors"
+	"todoapp/internal/entity/internal"
+)
 
 type User struct {
 	Username     string
@@ -16,8 +19,17 @@ func (u *User) SetPassword(password string) error {
 	}
 	//TODO: check password must have uppercase, lowercase, number, special character
 
-	u.Password = password
-	//TODO: Hash password
+	u.PasswordSalt = internal.Rand50Str()
+	u.Password = internal.HashHMACSHA256(password, u.PasswordSalt)
 
 	return nil
+}
+
+func (u *User) CheckPassword(password string) bool {
+	passwordHashed := internal.HashHMACSHA256(password, u.PasswordSalt)
+	if u.Password == passwordHashed {
+		return true
+	}
+
+	return false
 }
