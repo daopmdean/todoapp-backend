@@ -15,6 +15,7 @@ type RegisterUsecase struct {
 }
 
 type RegisterInput struct {
+	//TODO: fix warning
 	Username  string `json: "username"`
 	Password  string `json: "password"`
 	FirstName string `json: "firstName"`

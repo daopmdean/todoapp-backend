@@ -28,6 +28,8 @@ func (s *Server) Run(port int) {
 
 	api.POST("/auth/register", s.register)
 
+	api.POST("/auth/login", s.login)
+
 	p := fmt.Sprintf(":%v", port)
 	router.Run(p)
 }
