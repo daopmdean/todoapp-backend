@@ -2,12 +2,31 @@ package usecase_test
 
 import (
 	"testing"
+	"todoapp/internal/entity"
 	"todoapp/internal/usecase"
+	"todoapp/internal/usecase/repo"
 	"todoapp/test/repomock"
 )
 
+func createUserRepoMockWithData() repo.UserRepo {
+	return repomock.NewUserRepoMockBuilder().
+		WithGetUserByUsernameMock(func(username string) *entity.User {
+			if username != "daopham" {
+				return nil
+			}
+
+			user := &entity.User{
+				Username: "daopham",
+			}
+			user.SetPassword("12345678")
+
+			return user
+		}).
+		Build()
+}
+
 func TestLoginSuccess(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().Build()
+	urm := createUserRepoMockWithData()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",
@@ -22,7 +41,7 @@ func TestLoginSuccess(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidUsername(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().Build()
+	urm := createUserRepoMockWithData()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daophama",
@@ -37,7 +56,7 @@ func TestLoginFailWithInvalidUsername(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidPassword(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().Build()
+	urm := createUserRepoMockWithData()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",
