@@ -7,12 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Server struct {
-	userRepo repo.UserRepo
-}
-
 func NewServer(ur repo.UserRepo) *Server {
 	return &Server{ur}
+}
+
+type Server struct {
+	userRepo repo.UserRepo
 }
 
 func (s *Server) Run(port int) {

@@ -6,8 +6,13 @@ import (
 )
 
 func NewUserRepo() repo.UserRepo {
+	dao := entity.User{Username: "daopham", FirstName: "Dao", LastName: "Pham"}
+	dao.SetPassword("12345678")
+	hung := entity.User{Username: "hungpham", FirstName: "Hung", LastName: "Pham"}
+	hung.SetPassword("87654321")
+
 	return &userRepo{
-		users: []entity.User{},
+		users: []entity.User{dao, hung},
 	}
 }
 

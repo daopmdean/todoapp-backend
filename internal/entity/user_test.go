@@ -5,7 +5,6 @@ import (
 	"todoapp/internal/entity"
 )
 
-// Test set new password with less than 8 characters
 func TestUserSetPasswordLessThan8Chars(t *testing.T) {
 	user := new(entity.User)
 	password := "123456"
@@ -17,7 +16,6 @@ func TestUserSetPasswordLessThan8Chars(t *testing.T) {
 	}
 }
 
-// Test set new password with 8 characters
 func TestUserSetPasswordWith8Chars(t *testing.T) {
 	user := entity.User{Username: "someone"}
 	password := "12345678"
@@ -29,7 +27,6 @@ func TestUserSetPasswordWith8Chars(t *testing.T) {
 	}
 }
 
-// Test set new password with more than 8 characters
 func TestUserSetPasswordMoreThan8Chars(t *testing.T) {
 	user := entity.User{Username: "someone"}
 	password := "123456789"
