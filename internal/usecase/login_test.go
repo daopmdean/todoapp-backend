@@ -3,10 +3,11 @@ package usecase_test
 import (
 	"testing"
 	"todoapp/internal/usecase"
+	"todoapp/test/repomock"
 )
 
 func TestLoginSuccess(t *testing.T) {
-	urm := &userRepoMock{}
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",
@@ -21,7 +22,7 @@ func TestLoginSuccess(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidUsername(t *testing.T) {
-	urm := &userRepoMock{}
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daophama",
@@ -36,7 +37,7 @@ func TestLoginFailWithInvalidUsername(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidPassword(t *testing.T) {
-	urm := &userRepoMock{}
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",

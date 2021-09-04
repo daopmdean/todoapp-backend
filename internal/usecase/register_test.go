@@ -2,32 +2,12 @@ package usecase_test
 
 import (
 	"testing"
-	"todoapp/internal/entity"
 	"todoapp/internal/usecase"
+	"todoapp/test/repomock"
 )
 
-type userRepoMock struct {
-}
-
-func (urm *userRepoMock) SaveUser(user *entity.User) error {
-	return nil
-}
-
-func (urm *userRepoMock) GetUserByUsername(username string) *entity.User {
-	if username != "daopham" {
-		return nil
-	}
-
-	user := &entity.User{
-		Username: "daopham",
-	}
-	user.SetPassword("12345678")
-
-	return user
-}
-
 func TestRegisterSuccess(t *testing.T) {
-	urm := new(userRepoMock)
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",
@@ -44,7 +24,7 @@ func TestRegisterSuccess(t *testing.T) {
 }
 
 func TestRegisterFailWhenPasswordLessThan8Chars(t *testing.T) {
-	urm := new(userRepoMock)
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",
@@ -61,7 +41,7 @@ func TestRegisterFailWhenPasswordLessThan8Chars(t *testing.T) {
 }
 
 func TestRegisterFailWhenUsernameAndPasswordEmpty(t *testing.T) {
-	urm := new(userRepoMock)
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "",
@@ -78,7 +58,7 @@ func TestRegisterFailWhenUsernameAndPasswordEmpty(t *testing.T) {
 }
 
 func TestRegisterFailWhenUsernameEmpty(t *testing.T) {
-	urm := new(userRepoMock)
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "",
@@ -95,7 +75,7 @@ func TestRegisterFailWhenUsernameEmpty(t *testing.T) {
 }
 
 func TestRegisterFailWhenPasswordEmpty(t *testing.T) {
-	urm := new(userRepoMock)
+	urm := repomock.NewUserRepoMockBuilder().Build()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",
