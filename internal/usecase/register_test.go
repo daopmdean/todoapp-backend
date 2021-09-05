@@ -1,19 +1,23 @@
 package usecase_test
 
 import (
-	"errors"
 	"testing"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase"
+	"todoapp/internal/usecase/repo"
 	"todoapp/test/repomock"
 )
 
-func TestRegisterSuccess(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().
-		WithSaveUserMock(
-			func(u *entity.User) error { return nil },
-		).
+func createUserRepoMockForRegister() repo.UserRepo {
+	return repomock.NewUserRepoMockBuilder().
+		WithSaveUserMock(func(u *entity.User) error {
+			return nil
+		}).
 		Build()
+}
+
+func TestRegisterSuccess(t *testing.T) {
+	urm := createUserRepoMockForRegister()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",
@@ -30,9 +34,7 @@ func TestRegisterSuccess(t *testing.T) {
 }
 
 func TestRegisterFailWhenPasswordLessThan8Chars(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().
-		WithSaveUserMock(func(u *entity.User) error { return errors.New("error") }).
-		Build()
+	urm := createUserRepoMockForRegister()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",
@@ -49,7 +51,7 @@ func TestRegisterFailWhenPasswordLessThan8Chars(t *testing.T) {
 }
 
 func TestRegisterFailWhenUsernameAndPasswordEmpty(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().Build()
+	urm := createUserRepoMockForRegister()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "",
@@ -66,7 +68,7 @@ func TestRegisterFailWhenUsernameAndPasswordEmpty(t *testing.T) {
 }
 
 func TestRegisterFailWhenUsernameEmpty(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().Build()
+	urm := createUserRepoMockForRegister()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "",
@@ -83,9 +85,7 @@ func TestRegisterFailWhenUsernameEmpty(t *testing.T) {
 }
 
 func TestRegisterFailWhenPasswordEmpty(t *testing.T) {
-	urm := repomock.NewUserRepoMockBuilder().
-		WithSaveUserMock(func(u *entity.User) error { return errors.New("error") }).
-		Build()
+	urm := createUserRepoMockForRegister()
 	ru := usecase.NewRegisterUsecase(urm)
 	u := usecase.RegisterInput{
 		Username:  "someone",

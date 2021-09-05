@@ -8,7 +8,7 @@ import (
 	"todoapp/test/repomock"
 )
 
-func createUserRepoMockWithData() repo.UserRepo {
+func createUserRepoMockForLogin() repo.UserRepo {
 	return repomock.NewUserRepoMockBuilder().
 		WithGetUserByUsernameMock(func(username string) *entity.User {
 			if username != "daopham" {
@@ -26,7 +26,7 @@ func createUserRepoMockWithData() repo.UserRepo {
 }
 
 func TestLoginSuccess(t *testing.T) {
-	urm := createUserRepoMockWithData()
+	urm := createUserRepoMockForLogin()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",
@@ -41,7 +41,7 @@ func TestLoginSuccess(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidUsername(t *testing.T) {
-	urm := createUserRepoMockWithData()
+	urm := createUserRepoMockForLogin()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daophama",
@@ -56,7 +56,7 @@ func TestLoginFailWithInvalidUsername(t *testing.T) {
 }
 
 func TestLoginFailWithInvalidPassword(t *testing.T) {
-	urm := createUserRepoMockWithData()
+	urm := createUserRepoMockForLogin()
 	lu := usecase.NewLoginUsecase(urm)
 	li := usecase.LoginInput{
 		Username: "daopham",
