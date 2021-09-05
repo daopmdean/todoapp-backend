@@ -8,14 +8,22 @@ import (
 )
 
 func NewServer(ur repo.UserRepo) *Server {
-	return &Server{ur}
+	server := &Server{userRepo: ur}
+	server.setupRouter()
+	return server
 }
 
 type Server struct {
+	router   *gin.Engine
 	userRepo repo.UserRepo
 }
 
 func (s *Server) Run(port int) {
+	p := fmt.Sprintf(":%v", port)
+	s.router.Run(p)
+}
+
+func (s *Server) setupRouter() {
 	router := gin.Default()
 
 	api := router.Group("/api")
@@ -30,6 +38,9 @@ func (s *Server) Run(port int) {
 
 	api.POST("/auth/login", s.login)
 
-	p := fmt.Sprintf(":%v", port)
-	router.Run(p)
+	s.router = router
+}
+
+func (s *Server) GetRouter() *gin.Engine {
+	return s.router
 }
