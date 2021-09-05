@@ -9,7 +9,7 @@ import (
 func main() {
 	userRepo := memdb.NewUserRepo()
 
-	server := rest.NewServer(userRepo)
-	port := config.GetPort()
-	server.Run(port)
+	s := rest.NewServer(userRepo)
+	p := config.GetPort()
+	s.Run(p)
 }

@@ -18,14 +18,13 @@ type Server struct {
 	userRepo repo.UserRepo
 }
 
-func (s *Server) Run(port int) {
-	p := fmt.Sprintf(":%v", port)
-	s.router.Run(p)
-}
-
 func (s *Server) setupRouter() {
 	router := gin.Default()
+	s.setupApi(router)
+	s.router = router
+}
 
+func (s *Server) setupApi(router *gin.Engine) {
 	api := router.Group("/api")
 
 	api.GET("/ping", func(c *gin.Context) {
@@ -35,12 +34,14 @@ func (s *Server) setupRouter() {
 	})
 
 	api.POST("/auth/register", s.register)
-
 	api.POST("/auth/login", s.login)
-
-	s.router = router
 }
 
 func (s *Server) GetRouter() *gin.Engine {
 	return s.router
+}
+
+func (s *Server) Run(port int) {
+	p := fmt.Sprintf(":%v", port)
+	s.router.Run(p)
 }
