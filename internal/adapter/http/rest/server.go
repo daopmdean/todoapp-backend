@@ -2,6 +2,7 @@ package rest
 
 import (
 	"fmt"
+	"strings"
 	"todoapp/internal/usecase/repo"
 
 	"github.com/gin-gonic/gin"
@@ -35,6 +36,10 @@ func (s *Server) setupApi(router *gin.Engine) {
 
 	api.POST("/auth/register", s.register)
 	api.POST("/auth/login", s.login)
+
+	api.GET("/me", s.getMe)
+
+	api.POST("/todos", s.login)
 }
 
 func (s *Server) GetRouter() *gin.Engine {
@@ -44,4 +49,18 @@ func (s *Server) GetRouter() *gin.Engine {
 func (s *Server) Run(port int) {
 	p := fmt.Sprintf(":%v", port)
 	s.router.Run(p)
+}
+
+func (s *Server) getWebAccessToken(c *gin.Context) string {
+	header := c.Request.Header["Authorization"]
+	if len(header) == 0 {
+		return ""
+	}
+
+	bearerToken := strings.Split(header[0], " ")
+	if len(bearerToken) != 2 {
+		return ""
+	}
+
+	return bearerToken[1]
 }
