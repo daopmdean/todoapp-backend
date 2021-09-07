@@ -8,8 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewServer(ur repo.UserRepo) *Server {
-	server := &Server{userRepo: ur}
+func NewServer(ur repo.UserRepo, tr repo.TodoRepo) *Server {
+	server := &Server{
+		userRepo: ur,
+		todoRepo: tr,
+	}
 	server.setupRouter()
 	return server
 }
@@ -17,6 +20,7 @@ func NewServer(ur repo.UserRepo) *Server {
 type Server struct {
 	router   *gin.Engine
 	userRepo repo.UserRepo
+	todoRepo repo.TodoRepo
 }
 
 func (s *Server) setupRouter() {
@@ -39,7 +43,7 @@ func (s *Server) setupApi(router *gin.Engine) {
 
 	api.GET("/me", s.getMe)
 
-	api.POST("/todos", s.login)
+	api.POST("/todos", s.createTodoItem)
 }
 
 func (s *Server) GetRouter() *gin.Engine {
