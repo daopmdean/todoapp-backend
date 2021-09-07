@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"net/http"
 	"todoapp/internal/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,7 @@ func (s *Server) login(c *gin.Context) {
 	var input usecase.LoginInput
 
 	if err := c.BindJSON(&input); err != nil {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "cannot bind",
 		})
 		return
@@ -20,11 +21,11 @@ func (s *Server) login(c *gin.Context) {
 
 	output, err := loginUsecase.Login(input)
 	if err != nil {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "cannot login: " + err.Error(),
 		})
 		return
 	}
 
-	c.JSON(200, output)
+	c.JSON(http.StatusOK, output)
 }

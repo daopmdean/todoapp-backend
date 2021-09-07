@@ -8,21 +8,23 @@ import (
 )
 
 func TestGetMeSuccess(t *testing.T) {
-	router := internal.CreateServerRouterForApiTest()
-	method := "GET"
-	path := "/api/me"
-	headers := map[string]string{
-		"Authorization": "Bearer daopham", //TODO: change after implement jwt
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "GET",
+		Path:   "/api/me",
+		Headers: map[string]string{
+			"Authorization": "Bearer daopham", //TODO: change after implement jwt
+		},
 	}
 
-	response := internal.RequestServer(router, method, path, "", headers)
+	response := serverRouter.HandleRequest(request)
 
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
 	}
 
 	result := &usecase.GetMeOutput{}
-	err := json.Unmarshal(response.Body.Bytes(), result)
+	err := json.Unmarshal(response.Body, result)
 	if err != nil {
 		t.Errorf("expected no error, got %s", err)
 	}
@@ -41,11 +43,13 @@ func TestGetMeSuccess(t *testing.T) {
 }
 
 func TestGetMeFailWithNoToken(t *testing.T) {
-	router := internal.CreateServerRouterForApiTest()
-	method := "GET"
-	path := "/api/me"
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "GET",
+		Path:   "/api/me",
+	}
 
-	response := internal.RequestServer(router, method, path, "", nil)
+	response := serverRouter.HandleRequest(request)
 
 	if response.Code != 401 {
 		t.Errorf("expected 401, got %d", response.Code)
@@ -53,14 +57,16 @@ func TestGetMeFailWithNoToken(t *testing.T) {
 }
 
 func TestGetMeFailWithWrongUsernameFromToken(t *testing.T) {
-	router := internal.CreateServerRouterForApiTest()
-	method := "GET"
-	path := "/api/me"
-	headers := map[string]string{
-		"Authorization": "Bearer daophamaa", //TODO: change after implement jwt
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "GET",
+		Path:   "/api/me",
+		Headers: map[string]string{
+			"Authorization": "Bearer daophamaa", //TODO: change after implement jwt
+		},
 	}
 
-	response := internal.RequestServer(router, method, path, "", headers)
+	response := serverRouter.HandleRequest(request)
 
 	if response.Code != 500 {
 		t.Errorf("expected 500, got %d", response.Code)

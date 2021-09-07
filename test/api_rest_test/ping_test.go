@@ -7,17 +7,19 @@ import (
 
 func TestPingRoute(t *testing.T) {
 	router := internal.CreateServerRouterForApiTest()
-	method := "GET"
-	path := "/api/ping"
+	request := internal.Request{
+		Method: "GET",
+		Path:   "/api/ping",
+	}
 
-	response := internal.RequestServer(router, method, path, "", nil)
+	response := router.HandleRequest(request)
 
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
 	}
 
 	expectedBody := `{"message":"pong"}`
-	if response.Body.String() != expectedBody {
-		t.Errorf(`expected %s, got %s`, expectedBody, response.Body.String())
+	if string(response.Body) != expectedBody {
+		t.Errorf(`expected %s, got %s`, expectedBody, string(response.Body))
 	}
 }

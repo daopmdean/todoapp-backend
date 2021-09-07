@@ -6,16 +6,18 @@ import (
 )
 
 func TestCreateTodoItem(t *testing.T) {
-	router := internal.CreateServerRouterForApiTest()
-	method := "POST"
-	path := "/api/todos"
-	headers := map[string]string{
-		"Content-Type":  "application/x-www-form-urlencoded",
-		"Authorization": "daopham",
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "POST",
+		Path:   "/api/todos",
+		Headers: map[string]string{
+			"Content-Type":  "application/x-www-form-urlencoded",
+			"Authorization": "daopham",
+		},
+		Body: `{"content":"Wake up"}`,
 	}
-	body := `{"content":"Wake up"}`
 
-	response := internal.RequestServer(router, method, path, body, headers)
+	response := serverRouter.HandleRequest(request)
 
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
