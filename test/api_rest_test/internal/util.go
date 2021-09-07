@@ -6,12 +6,24 @@ import (
 	"strings"
 	"todoapp/internal/adapter/http/rest"
 	"todoapp/internal/adapter/memdb"
+	"todoapp/internal/entity"
+	"todoapp/internal/usecase/repo"
 
 	"github.com/gin-gonic/gin"
 )
 
 type serverRouter struct {
-	router *gin.Engine
+	router   *gin.Engine
+	userRepo repo.UserRepo
+	todoRepo repo.TodoRepo
+}
+
+func (sr *serverRouter) GetUserRepo() repo.UserRepo {
+	return sr.userRepo
+}
+
+func (sr *serverRouter) GetTodoRepo() repo.TodoRepo {
+	return sr.todoRepo
 }
 
 type Request struct {
@@ -42,7 +54,30 @@ func (sr *serverRouter) HandleRequest(request Request) Response {
 
 func CreateServerRouterForApiTest() *serverRouter {
 	userRepo := memdb.NewUserRepo()
-	_ = memdb.NewTodoRepo()
-	server := rest.NewServer(userRepo)
-	return &serverRouter{router: server.GetRouter()}
+	todoRepo := memdb.NewTodoRepo(userRepo)
+	initData(userRepo)
+
+	server := rest.NewServer(userRepo, todoRepo)
+	return &serverRouter{
+		router:   server.GetRouter(),
+		userRepo: userRepo,
+		todoRepo: todoRepo,
+	}
+}
+
+func initData(userRepo repo.UserRepo) {
+	dao := entity.User{
+		Username:  "daopham",
+		FirstName: "Dao",
+		LastName:  "Pham",
+	}
+	dao.SetPassword("12345678")
+	hung := entity.User{
+		Username:  "hungpham",
+		FirstName: "Hung",
+		LastName:  "Pham",
+	}
+	hung.SetPassword("87654321")
+	userRepo.SaveUser(&dao)
+	userRepo.SaveUser(&hung)
 }

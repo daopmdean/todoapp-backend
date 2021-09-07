@@ -1,10 +1,11 @@
 package entity
 
 type Todo struct {
-	Content string
-	IsDone  bool
+	Username string
+	Content  string
+	IsDone   bool
 }
 
-func (t *Todo) Check() {
+func (t *Todo) Toggle() {
 	t.IsDone = !t.IsDone
 }
