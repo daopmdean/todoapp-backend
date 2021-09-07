@@ -1,6 +1,9 @@
 package repomock
 
-import "todoapp/internal/entity"
+import (
+	"todoapp/internal/entity"
+	"todoapp/internal/usecase/repo"
+)
 
 type userRepoMockBuilder struct {
 	getUserByUsernameMock func(string) *entity.User
@@ -21,7 +24,7 @@ func (urmb *userRepoMockBuilder) WithGetUserByUsernameMock(mockFunc func(string)
 	return urmb
 }
 
-func (urmb *userRepoMockBuilder) Build() *userRepoMock {
+func (urmb *userRepoMockBuilder) Build() repo.UserRepo {
 	return &userRepoMock{
 		saveUserMock:          urmb.saveUserMock,
 		getUserByUsernameMock: urmb.getUserByUsernameMock,
