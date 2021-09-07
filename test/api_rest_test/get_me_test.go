@@ -23,22 +23,22 @@ func TestGetMeSuccess(t *testing.T) {
 		t.Errorf("expected 200, got %d", response.Code)
 	}
 
-	result := &usecase.GetMeOutput{}
-	err := json.Unmarshal(response.Body, result)
+	output := new(usecase.GetMeOutput)
+	err := json.Unmarshal(response.Body, output)
 	if err != nil {
 		t.Errorf("expected no error, got %s", err)
 	}
 
-	if result.Username != "daopham" {
-		t.Errorf("expected username %s, got %s", "daopham", result.Username)
+	if output.Username != "daopham" {
+		t.Errorf("expected username %s, got %s", "daopham", output.Username)
 	}
 
-	if result.FirstName != "Dao" {
-		t.Errorf("expected firstName %s, got %s", "Dao", result.FirstName)
+	if output.FirstName != "Dao" {
+		t.Errorf("expected firstName %s, got %s", "Dao", output.FirstName)
 	}
 
-	if result.LastName != "Pham" {
-		t.Errorf("expected lastName %s, got %s", "Pham", result.LastName)
+	if output.LastName != "Pham" {
+		t.Errorf("expected lastName %s, got %s", "Pham", output.LastName)
 	}
 }
 

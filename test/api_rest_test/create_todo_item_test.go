@@ -11,7 +11,7 @@ func TestCreateTodoItem(t *testing.T) {
 		Method: "POST",
 		Path:   "/api/todos",
 		Headers: map[string]string{
-			"Content-Type":  "application/x-www-form-urlencoded",
+			"Content-Type":  "application/json; charset=utf-8",
 			"Authorization": "daopham",
 		},
 		Body: `{"content":"Wake up"}`,
@@ -21,5 +21,19 @@ func TestCreateTodoItem(t *testing.T) {
 
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
+	}
+
+	todoRepo := serverRouter.GetTodoRepo()
+	todos := todoRepo.GetTodoListOf("daopham")
+	isTodoItemAdded := false
+	for _, val := range todos {
+		if val.Content == "Wake up" {
+			isTodoItemAdded = true
+			break
+		}
+	}
+
+	if !isTodoItemAdded {
+		t.Errorf(`expected todo "Wake up" in todo list`)
 	}
 }
