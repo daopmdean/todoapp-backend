@@ -26,10 +26,7 @@ func (lu *LoginUsecase) Login(input LoginInput) (*LoginOutput, error) {
 	}
 
 	return &LoginOutput{
-		Username:  user.Username,
-		Token:     "Token",
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
+		Token: user.Username,
 	}, nil
 }
 
@@ -40,9 +37,5 @@ type LoginInput struct {
 }
 
 type LoginOutput struct {
-	//TODO: fix warning
-	Username  string
-	Token     string
-	FirstName string
-	LastName  string
+	Token string `json:"token"`
 }
