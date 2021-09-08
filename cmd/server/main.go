@@ -10,16 +10,17 @@ import (
 
 func main() {
 	userRepo := memdb.NewUserRepo()
-	todoRepo := memdb.NewTodoRepo(userRepo)
+	todoRepo := memdb.NewTodoRepo()
 
-	initData(userRepo)
+	initUserData(userRepo)
+	initTodoData(todoRepo)
 
 	s := rest.NewServer(userRepo, todoRepo)
 	p := config.GetPort()
 	s.Run(p)
 }
 
-func initData(userRepo repo.UserRepo) {
+func initUserData(userRepo repo.UserRepo) {
 	dao := entity.User{
 		Username:  "daopham",
 		FirstName: "Dao",
@@ -34,4 +35,26 @@ func initData(userRepo repo.UserRepo) {
 	hung.SetPassword("87654321")
 	userRepo.SaveUser(&dao)
 	userRepo.SaveUser(&hung)
+}
+
+func initTodoData(todoRepo repo.TodoRepo) {
+	daoTodo := entity.Todo{
+		Username: "daopham",
+		Content:  "Dao walking",
+		IsDone:   false,
+	}
+	daoTodo2 := entity.Todo{
+		Username: "daopham",
+		Content:  "Dao learning",
+		IsDone:   false,
+	}
+	hungTodo := entity.Todo{
+		Username: "hungpham",
+		Content:  "Hung working",
+		IsDone:   false,
+	}
+
+	todoRepo.CreateTodo(&daoTodo)
+	todoRepo.CreateTodo(&daoTodo2)
+	todoRepo.CreateTodo(&hungTodo)
 }
