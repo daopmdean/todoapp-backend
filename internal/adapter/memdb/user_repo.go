@@ -5,6 +5,9 @@ import (
 	"todoapp/internal/usecase/repo"
 )
 
+// check if missing implementation
+var _ repo.UserRepo = new(userRepo)
+
 func NewUserRepo() repo.UserRepo {
 	return &userRepo{
 		users: []entity.User{},
