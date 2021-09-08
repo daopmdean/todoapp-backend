@@ -54,8 +54,8 @@ func (sr *serverRouter) HandleRequest(request Request) Response {
 
 func CreateServerRouterForApiTest() *serverRouter {
 	userRepo := memdb.NewUserRepo()
-	todoRepo := memdb.NewTodoRepo(userRepo)
-	initData(userRepo)
+	todoRepo := memdb.NewTodoRepo()
+	initUserData(userRepo)
 
 	server := rest.NewServer(userRepo, todoRepo)
 	return &serverRouter{
@@ -65,7 +65,7 @@ func CreateServerRouterForApiTest() *serverRouter {
 	}
 }
 
-func initData(userRepo repo.UserRepo) {
+func initUserData(userRepo repo.UserRepo) {
 	dao := entity.User{
 		Username:  "daopham",
 		FirstName: "Dao",
