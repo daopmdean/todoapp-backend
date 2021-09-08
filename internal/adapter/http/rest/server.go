@@ -43,7 +43,8 @@ func (s *Server) setupApi(router *gin.Engine) {
 
 	api.GET("/me", s.getMe)
 
-	api.POST("/todos", s.createTodoItem)
+	api.GET("/todos", s.getTodoList)
+	api.POST("/todos", s.createTodo)
 }
 
 func (s *Server) GetRouter() *gin.Engine {
