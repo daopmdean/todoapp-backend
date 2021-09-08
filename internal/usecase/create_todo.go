@@ -31,5 +31,5 @@ func (ctiu *CreateTodoUsecase) CreateTodo(input CreateTodoInput) error {
 
 type CreateTodoInput struct {
 	Username string
-	Content  string
+	Content  string `json:"content"`
 }

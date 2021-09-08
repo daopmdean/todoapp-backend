@@ -8,21 +8,6 @@ import (
 	"todoapp/test/repomock"
 )
 
-func getTodoListOfMock(username string) []entity.Todo {
-	return []entity.Todo{
-		{
-			Username: "daopham",
-			Content:  "Wash hand",
-			IsDone:   false,
-		},
-		{
-			Username: "daopham",
-			Content:  "Brush teeth",
-			IsDone:   false,
-		},
-	}
-}
-
 func TestCreateTodo(t *testing.T) {
 	hasCreateTodoFuncCalled := false
 	var inputCalled entity.Todo

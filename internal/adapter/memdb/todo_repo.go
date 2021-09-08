@@ -19,12 +19,17 @@ type todoRepo struct {
 }
 
 func (tr *todoRepo) GetTodoListOf(username string) []entity.Todo {
-
-	return nil
+	result := []entity.Todo{}
+	for _, todo := range tr.todos {
+		if todo.Username == username {
+			result = append(result, todo)
+		}
+	}
+	return result
 }
 
 func (tr *todoRepo) CreateTodo(td *entity.Todo) error {
-
+	tr.todos = append(tr.todos, *td)
 	return nil
 }
 
