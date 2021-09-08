@@ -5,14 +5,14 @@ import (
 	"todoapp/test/api_rest_test/internal"
 )
 
-func TestCreateTodoItem(t *testing.T) {
+func TestCreateTodo(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
 	request := internal.Request{
 		Method: "POST",
 		Path:   "/api/todos",
 		Headers: map[string]string{
 			"Content-Type":  "application/json; charset=utf-8",
-			"Authorization": "daopham",
+			"Authorization": "Bearer daopham",
 		},
 		Body: `{"content":"Wake up"}`,
 	}
