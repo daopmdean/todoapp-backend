@@ -1,6 +1,7 @@
 package memdb
 
 import (
+	"todoapp/internal/adapter/memdb/internal"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
 )
@@ -28,15 +29,33 @@ func (tr *todoRepo) GetTodoListOf(username string) []entity.Todo {
 	return result
 }
 
+func (tr *todoRepo) GetTodoByID(id string) *entity.Todo {
+	for _, todo := range tr.todos {
+		if todo.ID == id {
+			return &todo
+		}
+	}
+	return nil
+}
+
 func (tr *todoRepo) CreateTodo(td *entity.Todo) error {
+	if td.ID == "" {
+		td.ID = internal.GenId(10)
+	}
 	tr.todos = append(tr.todos, *td)
 	return nil
 }
 
-func (tr *todoRepo) CheckTodo(td *entity.Todo) error {
+func (tr *todoRepo) DeleteTodo(todoID string) error {
+	for i, todo := range tr.todos {
+		if todo.ID == todoID {
+			tr.todos = remove(tr.todos, i)
+			break
+		}
+	}
 	return nil
 }
 
-func (tr *todoRepo) DeleteTodo(td *entity.Todo) error {
-	return nil
+func remove(slice []entity.Todo, i int) []entity.Todo {
+	return append(slice[:i], slice[i+1:]...)
 }

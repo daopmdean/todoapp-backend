@@ -25,6 +25,11 @@ func (mb *todoRepoMockBuilder) WithCreateTodoMock(mockFunc func(*entity.Todo) er
 	return mb
 }
 
+func (mb *todoRepoMockBuilder) WithDeleteTodoMock(mockFunc func(string) error) *todoRepoMockBuilder {
+	mb.todoRepoMock.deleteTodoMock = mockFunc
+	return mb
+}
+
 func (mb *todoRepoMockBuilder) Build() repo.TodoRepo {
 	return mb.todoRepoMock
 }
