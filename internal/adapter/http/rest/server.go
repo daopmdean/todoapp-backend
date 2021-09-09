@@ -45,6 +45,7 @@ func (s *Server) setupApi(router *gin.Engine) {
 
 	api.GET("/todos", s.getTodoList)
 	api.POST("/todos", s.createTodo)
+	api.DELETE("/todos/:id", s.deleteTodo)
 }
 
 func (s *Server) GetRouter() *gin.Engine {

@@ -81,3 +81,12 @@ func initUserData(userRepo repo.UserRepo) {
 	userRepo.SaveUser(&dao)
 	userRepo.SaveUser(&hung)
 }
+
+func CheckIfTodoListContainsTodo(todos []entity.Todo, target entity.Todo) bool {
+	for _, todo := range todos {
+		if todo.Equals(&target) {
+			return true
+		}
+	}
+	return false
+}

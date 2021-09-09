@@ -41,10 +41,10 @@ func TestGetTodoList(t *testing.T) {
 		Content:  "Running",
 		IsDone:   true,
 	}
-	if !checkIfTodoListContainsTodo(todos, expectedTodo1) {
+	if !internal.CheckIfTodoListContainsTodo(todos, expectedTodo1) {
 		t.Errorf("todos dont contain expectedTodo1: %v", expectedTodo1)
 	}
-	if !checkIfTodoListContainsTodo(todos, expectedTodo2) {
+	if !internal.CheckIfTodoListContainsTodo(todos, expectedTodo2) {
 		t.Errorf("todos dont contain expectedTodo2: %v", expectedTodo2)
 	}
 }
@@ -68,13 +68,4 @@ func seedDataForTodoListTest(todoRepo repo.TodoRepo) {
 	todoRepo.CreateTodo(&fakeData1)
 	todoRepo.CreateTodo(&fakeData2)
 	todoRepo.CreateTodo(&fakeData3)
-}
-
-func checkIfTodoListContainsTodo(todos []entity.Todo, target entity.Todo) bool {
-	for _, todo := range todos {
-		if todo.Equals(&target) {
-			return true
-		}
-	}
-	return false
 }
