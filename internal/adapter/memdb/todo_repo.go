@@ -1,6 +1,7 @@
 package memdb
 
 import (
+	"errors"
 	"todoapp/internal/adapter/memdb/internal"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
@@ -50,12 +51,22 @@ func (tr *todoRepo) DeleteTodo(todoID string) error {
 	for i, todo := range tr.todos {
 		if todo.ID == todoID {
 			tr.todos = remove(tr.todos, i)
-			break
+			return nil
 		}
 	}
-	return nil
+	return errors.New("todo not found")
 }
 
 func remove(slice []entity.Todo, i int) []entity.Todo {
 	return append(slice[:i], slice[i+1:]...)
+}
+
+func (tr *todoRepo) ToggleTodo(id string) error {
+	for i, todo := range tr.todos {
+		if todo.ID == id {
+			tr.todos[i].IsDone = !tr.todos[i].IsDone
+			return nil
+		}
+	}
+	return errors.New("todo not found")
 }

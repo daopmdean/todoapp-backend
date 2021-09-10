@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) deleteTodo(c *gin.Context) {
+func (s *Server) toggleTodo(c *gin.Context) {
 	accessToken := s.getWebAccessToken(c)
 
 	authenUsecase := usecase.NewAuthenticationUsecase()
@@ -25,8 +25,8 @@ func (s *Server) deleteTodo(c *gin.Context) {
 		return
 	}
 
-	usecase := usecase.NewDeleteTodoUsecase(s.todoRepo)
-	err = usecase.DeleteTodo(todoID)
+	usecase := usecase.NewToggleTodoUsecase(s.todoRepo)
+	err = usecase.ToggleTodo(todoID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
