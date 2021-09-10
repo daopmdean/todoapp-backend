@@ -31,9 +31,8 @@ func (lu *LoginUsecase) Login(input LoginInput) (*LoginOutput, error) {
 }
 
 type LoginInput struct {
-	//TODO: fix warning
-	Username string `json: "username"`
-	Password string `json: "password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type LoginOutput struct {

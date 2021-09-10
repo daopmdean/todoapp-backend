@@ -1,6 +1,11 @@
 package repomock
 
-import "todoapp/internal/entity"
+import (
+	"todoapp/internal/entity"
+	"todoapp/internal/usecase/repo"
+)
+
+var _ repo.UserRepo = new(userRepoMock)
 
 type userRepoMock struct {
 	getUserByUsernameMock func(string) *entity.User

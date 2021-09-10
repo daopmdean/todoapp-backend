@@ -3,8 +3,9 @@ package repo
 import "todoapp/internal/entity"
 
 type TodoRepo interface {
-	GetTodoList(username string) []entity.Todo
+	GetTodoListOf(username string) []entity.Todo
+	GetTodoByID(id string) *entity.Todo
 	CreateTodo(*entity.Todo) error
-	CheckTodo(*entity.Todo) error
-	DeleteTodo(*entity.Todo) error
+	DeleteTodo(todoID string) error
+	ToggleTodo(todoID string) error
 }

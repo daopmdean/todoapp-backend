@@ -8,7 +8,7 @@ import (
 func TestCheckTodoWhenFalse(t *testing.T) {
 	todo := entity.Todo{}
 
-	todo.Check()
+	todo.Toggle()
 
 	if !todo.IsDone {
 		t.Errorf("expected IsDone true, but got %v", todo.IsDone)
@@ -18,7 +18,7 @@ func TestCheckTodoWhenFalse(t *testing.T) {
 func TestCheckTodoWhenTrue(t *testing.T) {
 	todo := entity.Todo{IsDone: true}
 
-	todo.Check()
+	todo.Toggle()
 
 	if todo.IsDone {
 		t.Errorf("expected IsDone false, but got %v", todo.IsDone)

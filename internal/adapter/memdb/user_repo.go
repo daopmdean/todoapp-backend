@@ -5,14 +5,12 @@ import (
 	"todoapp/internal/usecase/repo"
 )
 
-func NewUserRepo() repo.UserRepo {
-	dao := entity.User{Username: "daopham", FirstName: "Dao", LastName: "Pham"}
-	dao.SetPassword("12345678")
-	hung := entity.User{Username: "hungpham", FirstName: "Hung", LastName: "Pham"}
-	hung.SetPassword("87654321")
+// check if missing implementation
+var _ repo.UserRepo = new(userRepo)
 
+func NewUserRepo() repo.UserRepo {
 	return &userRepo{
-		users: []entity.User{dao, hung},
+		users: []entity.User{},
 	}
 }
 

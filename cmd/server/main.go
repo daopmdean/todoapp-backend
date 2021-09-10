@@ -8,8 +8,9 @@ import (
 
 func main() {
 	userRepo := memdb.NewUserRepo()
+	todoRepo := memdb.NewTodoRepo()
 
-	s := rest.NewServer(userRepo)
+	s := rest.NewServer(userRepo, todoRepo)
 	p := config.GetPort()
 	s.Run(p)
 }

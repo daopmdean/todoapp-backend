@@ -2,13 +2,17 @@ package rest
 
 import (
 	"fmt"
+	"strings"
 	"todoapp/internal/usecase/repo"
 
 	"github.com/gin-gonic/gin"
 )
 
-func NewServer(ur repo.UserRepo) *Server {
-	server := &Server{userRepo: ur}
+func NewServer(ur repo.UserRepo, tr repo.TodoRepo) *Server {
+	server := &Server{
+		userRepo: ur,
+		todoRepo: tr,
+	}
 	server.setupRouter()
 	return server
 }
@@ -16,6 +20,7 @@ func NewServer(ur repo.UserRepo) *Server {
 type Server struct {
 	router   *gin.Engine
 	userRepo repo.UserRepo
+	todoRepo repo.TodoRepo
 }
 
 func (s *Server) setupRouter() {
@@ -35,6 +40,13 @@ func (s *Server) setupApi(router *gin.Engine) {
 
 	api.POST("/auth/register", s.register)
 	api.POST("/auth/login", s.login)
+
+	api.GET("/me", s.getMe)
+
+	api.GET("/todos", s.getTodoList)
+	api.POST("/todos", s.createTodo)
+	api.DELETE("/todos/:id", s.deleteTodo)
+	api.PUT("/todos/:id/toggle", s.toggleTodo)
 }
 
 func (s *Server) GetRouter() *gin.Engine {
@@ -44,4 +56,18 @@ func (s *Server) GetRouter() *gin.Engine {
 func (s *Server) Run(port int) {
 	p := fmt.Sprintf(":%v", port)
 	s.router.Run(p)
+}
+
+func (s *Server) getWebAccessToken(c *gin.Context) string {
+	header := c.Request.Header["Authorization"]
+	if len(header) == 0 {
+		return ""
+	}
+
+	bearerToken := strings.Split(header[0], " ")
+	if len(bearerToken) != 2 {
+		return ""
+	}
+
+	return bearerToken[1]
 }

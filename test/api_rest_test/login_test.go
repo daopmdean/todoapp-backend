@@ -6,24 +6,51 @@ import (
 )
 
 func TestLoginSuccess(t *testing.T) {
-	router := internal.CreateServerRouterForApiTest()
-	method := "POST"
-	path := "/api/auth/login"
-	headers := map[string]string{
-		"Content-Type": "application/x-www-form-urlencoded",
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "POST",
+		Path:   "/api/auth/login",
+		Headers: map[string]string{
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		Body: `{
+			"username": "daopham",
+			"password": "12345678"
+		}`,
 	}
-	body := `{
-		"username": "daopham",
-		"password": "12345678"
-	}`
 
-	response := internal.RequestServer(router, method, path, body, headers)
+	response := serverRouter.HandleRequest(request)
 
 	expectedBody := `{"token":"daopham"}`
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
 	}
-	if response.Body.String() != expectedBody {
-		t.Errorf("expected %s, got %s", expectedBody, response.Body.String())
+	if string(response.Body) != expectedBody {
+		t.Errorf("expected %s, got %s", expectedBody, string(response.Body))
+	}
+}
+
+func TestLoginFail(t *testing.T) {
+	serverRouter := internal.CreateServerRouterForApiTest()
+	request := internal.Request{
+		Method: "POST",
+		Path:   "/api/auth/login",
+		Headers: map[string]string{
+			"Content-Type": "application/x-www-form-urlencoded",
+		},
+		Body: `{
+			"username": "daopham",
+			"password": "12345678a"
+		}`,
+	}
+
+	response := serverRouter.HandleRequest(request)
+
+	expectedBody := `{"error":"cannot login: username or password incorrect"}`
+	if response.Code != 400 {
+		t.Errorf("expected 400, got %d", response.Code)
+	}
+	if string(response.Body) != expectedBody {
+		t.Errorf("expected %s, got %s", expectedBody, string(response.Body))
 	}
 }

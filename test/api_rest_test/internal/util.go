@@ -6,24 +6,109 @@ import (
 	"strings"
 	"todoapp/internal/adapter/http/rest"
 	"todoapp/internal/adapter/memdb"
+	"todoapp/internal/entity"
+	"todoapp/internal/usecase/repo"
 
 	"github.com/gin-gonic/gin"
 )
 
-func CreateServerRouterForApiTest() *gin.Engine {
-	userRepo := memdb.NewUserRepo()
-	_ = memdb.NewTodoRepo()
-	server := rest.NewServer(userRepo)
-	return server.GetRouter()
+type serverRouter struct {
+	router   *gin.Engine
+	userRepo repo.UserRepo
+	todoRepo repo.TodoRepo
 }
 
-func RequestServer(router *gin.Engine, method, path, body string, headers map[string]string) *httptest.ResponseRecorder {
+func (sr *serverRouter) GetUserRepo() repo.UserRepo {
+	return sr.userRepo
+}
+
+func (sr *serverRouter) GetTodoRepo() repo.TodoRepo {
+	return sr.todoRepo
+}
+
+type Request struct {
+	Method  string
+	Path    string
+	Body    string
+	Headers map[string]string
+}
+
+type Response struct {
+	Code int
+	Body []byte
+}
+
+func (sr *serverRouter) HandleRequest(request Request) Response {
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest(method, path, strings.NewReader(body))
-	for key, val := range headers {
+	req, _ := http.NewRequest(request.Method, request.Path, strings.NewReader(request.Body))
+	for key, val := range request.Headers {
 		req.Header.Set(key, val)
 	}
-	router.ServeHTTP(w, req)
+	sr.router.ServeHTTP(w, req)
 
-	return w
+	return Response{
+		Code: w.Code,
+		Body: w.Body.Bytes(),
+	}
+}
+
+func CreateServerRouterForApiTest() *serverRouter {
+	userRepo := memdb.NewUserRepo()
+	todoRepo := memdb.NewTodoRepo()
+	initUserData(userRepo)
+	initTodoData(todoRepo)
+
+	server := rest.NewServer(userRepo, todoRepo)
+	return &serverRouter{
+		router:   server.GetRouter(),
+		userRepo: userRepo,
+		todoRepo: todoRepo,
+	}
+}
+func initUserData(userRepo repo.UserRepo) {
+	dao := entity.User{
+		Username:  "daopham",
+		FirstName: "Dao",
+		LastName:  "Pham",
+	}
+	dao.SetPassword("12345678")
+	hung := entity.User{
+		Username:  "hungpham",
+		FirstName: "Hung",
+		LastName:  "Pham",
+	}
+	hung.SetPassword("87654321")
+	userRepo.SaveUser(&dao)
+	userRepo.SaveUser(&hung)
+}
+
+func initTodoData(todoRepo repo.TodoRepo) {
+	daoTodo := entity.Todo{
+		Username: "daopham",
+		Content:  "Dao walking",
+		IsDone:   false,
+	}
+	daoTodo2 := entity.Todo{
+		Username: "daopham",
+		Content:  "Dao learning",
+		IsDone:   false,
+	}
+	hungTodo := entity.Todo{
+		Username: "hungpham",
+		Content:  "Hung working",
+		IsDone:   false,
+	}
+
+	todoRepo.CreateTodo(&daoTodo)
+	todoRepo.CreateTodo(&daoTodo2)
+	todoRepo.CreateTodo(&hungTodo)
+}
+
+func CheckIfTodoListContainsTodo(todos []entity.Todo, target entity.Todo) bool {
+	for _, todo := range todos {
+		if todo.Equals(&target) {
+			return true
+		}
+	}
+	return false
 }
