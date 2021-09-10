@@ -10,7 +10,7 @@ type AuthorizationUsecase struct {
 	todoRepo repo.TodoRepo
 }
 
-func (au *AuthorizationUsecase) CheckUserAuthorize(username, todoID string) bool {
+func (au *AuthorizationUsecase) CheckIfUserIsAllowedToModifyTodo(username, todoID string) bool {
 	todoOwner := au.todoRepo.GetTodoByID(todoID)
 	if todoOwner.Username == username {
 		return true

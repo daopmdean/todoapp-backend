@@ -19,7 +19,7 @@ func (s *Server) deleteTodo(c *gin.Context) {
 
 	authorUsecase := usecase.NewAuthorizationUsecase(s.todoRepo)
 	todoID := c.Param("id")
-	isAuthorize := authorUsecase.CheckUserAuthorize(username, todoID)
+	isAuthorize := authorUsecase.CheckIfUserIsAllowedToModifyTodo(username, todoID)
 	if !isAuthorize {
 		c.JSON(http.StatusForbidden, "Forbidden")
 		return
