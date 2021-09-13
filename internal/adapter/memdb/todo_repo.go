@@ -61,10 +61,10 @@ func remove(slice []entity.Todo, i int) []entity.Todo {
 	return append(slice[:i], slice[i+1:]...)
 }
 
-func (tr *todoRepo) ToggleTodo(id string) error {
+func (tr *todoRepo) UpdateTodo(todoToUpdate *entity.Todo) error {
 	for i, todo := range tr.todos {
-		if todo.ID == id {
-			tr.todos[i].IsDone = !tr.todos[i].IsDone
+		if todo.ID == todoToUpdate.ID {
+			tr.todos[i] = *todoToUpdate
 			return nil
 		}
 	}
