@@ -12,7 +12,7 @@ type todoRepoMock struct {
 	getTodoByID       func(string) *entity.Todo
 	createTodoMock    func(*entity.Todo) error
 	deleteTodoMock    func(string) error
-	toggleTodoMock    func(string) error
+	updateTodoMock    func(*entity.Todo) error
 }
 
 func (m *todoRepoMock) GetTodoListOf(username string) []entity.Todo {
@@ -31,6 +31,6 @@ func (m *todoRepoMock) DeleteTodo(todoID string) error {
 	return m.deleteTodoMock(todoID)
 }
 
-func (m *todoRepoMock) ToggleTodo(todoID string) error {
-	return m.toggleTodoMock(todoID)
+func (m *todoRepoMock) UpdateTodo(todo *entity.Todo) error {
+	return m.updateTodoMock(todo)
 }

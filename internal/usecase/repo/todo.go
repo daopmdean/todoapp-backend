@@ -7,5 +7,5 @@ type TodoRepo interface {
 	GetTodoByID(id string) *entity.Todo
 	CreateTodo(*entity.Todo) error
 	DeleteTodo(todoID string) error
-	ToggleTodo(todoID string) error
+	UpdateTodo(*entity.Todo) error
 }

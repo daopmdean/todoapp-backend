@@ -4,6 +4,8 @@ import (
 	"errors"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
+
+	"github.com/google/uuid"
 )
 
 func NewCreateTodoUsecase(tr repo.TodoRepo) *CreateTodoUsecase {
@@ -16,6 +18,7 @@ type CreateTodoUsecase struct {
 
 func (ctiu *CreateTodoUsecase) CreateTodo(input CreateTodoInput) error {
 	todo := entity.Todo{
+		ID:       uuid.New().String(),
 		Username: input.Username,
 		Content:  input.Content,
 		IsDone:   false,

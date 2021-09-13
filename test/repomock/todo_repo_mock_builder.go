@@ -30,8 +30,8 @@ func (mb *todoRepoMockBuilder) WithDeleteTodoMock(mockFunc func(string) error) *
 	return mb
 }
 
-func (mb *todoRepoMockBuilder) WithToggleTodoMock(mockFunc func(string) error) *todoRepoMockBuilder {
-	mb.todoRepoMock.toggleTodoMock = mockFunc
+func (mb *todoRepoMockBuilder) WithUpdateTodoMock(mockFunc func(*entity.Todo) error) *todoRepoMockBuilder {
+	mb.todoRepoMock.updateTodoMock = mockFunc
 	return mb
 }
 
