@@ -20,6 +20,11 @@ func (mb *todoRepoMockBuilder) WithGetTodoListOfMock(mockFunc func(string) []ent
 	return mb
 }
 
+func (mb *todoRepoMockBuilder) WithGetTodoByID(mockFunc func(string) *entity.Todo) *todoRepoMockBuilder {
+	mb.todoRepoMock.getTodoByIDMock = mockFunc
+	return mb
+}
+
 func (mb *todoRepoMockBuilder) WithCreateTodoMock(mockFunc func(*entity.Todo) error) *todoRepoMockBuilder {
 	mb.todoRepoMock.createTodoMock = mockFunc
 	return mb

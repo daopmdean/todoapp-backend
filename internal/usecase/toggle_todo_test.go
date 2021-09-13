@@ -8,10 +8,17 @@ import (
 )
 
 func TestToggleTodoUsecase(t *testing.T) {
-	isToggleTodoMockCalled := false
+	isUpdateTodoMockCalled := false
+	var inputTodo entity.Todo
 	todoRepo := repomock.NewTodoRepoMockBuilder().
+		WithGetTodoByID(func(s string) *entity.Todo {
+			return &entity.Todo{
+				ID: "1234567890",
+			}
+		}).
 		WithUpdateTodoMock(func(input *entity.Todo) error {
-			isToggleTodoMockCalled = true
+			isUpdateTodoMockCalled = true
+			inputTodo = *input
 			return nil
 		}).
 		Build()
@@ -23,10 +30,10 @@ func TestToggleTodoUsecase(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
-	if !isToggleTodoMockCalled {
-		t.Errorf("expected repo to call toggle todo")
+	if !isUpdateTodoMockCalled {
+		t.Errorf("expected repo to call update todo")
 	}
-	// if isToggleTodoMockCalled & {
-	// 	t.Errorf("expected inputCalled 1234567890, got %s", inputCalled)
-	// }
+	if isUpdateTodoMockCalled && inputTodo.ID != "1234567890" {
+		t.Errorf("expected inputCalled 1234567890, got %s", inputTodo.ID)
+	}
 }
