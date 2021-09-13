@@ -6,19 +6,17 @@ import (
 	"todoapp/internal/common/config"
 	"todoapp/internal/entity"
 
-	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 )
 
 func main() {
 	// userRepo := memdb.NewUserRepo()
 	// todoRepo := memdb.NewTodoRepo()
-	dsn := "sqlserver://sa:MyStrongPassword123@localhost:1433?database=todoapp"
-	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
+	db, err := mssqldb.Connect()
 	if err != nil {
 		panic("can't connect to database")
 	}
-	setup(db)
+	migrateDB(db)
 
 	userRepo := mssqldb.NewUserRepo(db)
 	todoRepo := mssqldb.NewTodoRepo(db)
@@ -28,6 +26,6 @@ func main() {
 	s.Run(p)
 }
 
-func setup(db *gorm.DB) {
+func migrateDB(db *gorm.DB) {
 	db.AutoMigrate(&entity.User{}, &entity.Todo{})
 }

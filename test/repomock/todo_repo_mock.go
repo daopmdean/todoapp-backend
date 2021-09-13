@@ -9,7 +9,7 @@ var _ repo.TodoRepo = new(todoRepoMock)
 
 type todoRepoMock struct {
 	getTodoListOfMock func(string) []entity.Todo
-	getTodoByID       func(string) *entity.Todo
+	getTodoByIDMock   func(string) *entity.Todo
 	createTodoMock    func(*entity.Todo) error
 	deleteTodoMock    func(string) error
 	updateTodoMock    func(*entity.Todo) error
@@ -20,7 +20,7 @@ func (m *todoRepoMock) GetTodoListOf(username string) []entity.Todo {
 }
 
 func (m *todoRepoMock) GetTodoByID(todoID string) *entity.Todo {
-	return m.getTodoByID(todoID)
+	return m.getTodoByIDMock(todoID)
 }
 
 func (m *todoRepoMock) CreateTodo(todo *entity.Todo) error {

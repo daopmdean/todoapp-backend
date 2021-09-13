@@ -17,14 +17,19 @@ type CreateTodoUsecase struct {
 }
 
 func (ctiu *CreateTodoUsecase) CreateTodo(input CreateTodoInput) error {
+	id, err := uuid.NewRandom()
+	if err != nil {
+		return errors.New("cannot generate id: " + err.Error())
+	}
+
 	todo := entity.Todo{
-		ID:       uuid.New().String(),
+		ID:       id.String(),
 		Username: input.Username,
 		Content:  input.Content,
 		IsDone:   false,
 	}
 
-	err := ctiu.todoRepo.CreateTodo(&todo)
+	err = ctiu.todoRepo.CreateTodo(&todo)
 	if err != nil {
 		return errors.New("cannot create todo: " + err.Error())
 	}
