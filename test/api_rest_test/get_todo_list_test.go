@@ -1,6 +1,7 @@
 package api_rest_test
 
 import (
+	"fmt"
 	"testing"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
@@ -26,7 +27,9 @@ func TestGetTodoList(t *testing.T) {
 	}
 
 	todos := todoRepo.GetTodoListOf("daopham")
-
+	for _, todo := range todos {
+		fmt.Println(todo)
+	}
 	if len(todos) != 2 {
 		t.Errorf("expected todo list with len 2, got len %d", len(todos))
 	}

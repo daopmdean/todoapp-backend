@@ -18,7 +18,7 @@ type userRepo struct {
 	users []entity.User
 }
 
-func (ur *userRepo) SaveUser(user *entity.User) error {
+func (ur *userRepo) CreateUser(user *entity.User) error {
 	ur.users = append(ur.users, *user)
 	return nil
 }

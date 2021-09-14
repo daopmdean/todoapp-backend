@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	Username     string
+	Username     string `gorm:"primaryKey"`
 	Password     string
 	PasswordSalt string
 	FirstName    string
