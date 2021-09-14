@@ -10,7 +10,7 @@ import (
 
 func createUserRepoMockForRegister() repo.UserRepo {
 	return repomock.NewUserRepoMockBuilder().
-		WithSaveUserMock(func(u *entity.User) error {
+		WithCreateUserMock(func(u *entity.User) error {
 			return nil
 		}).
 		Build()

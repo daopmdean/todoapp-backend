@@ -1,6 +1,7 @@
 package mssqldb
 
 import (
+	"errors"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
 
@@ -33,7 +34,7 @@ func (tr *todoRepo) GetTodoByID(id string) *entity.Todo {
 func (tr *todoRepo) CreateTodo(todo *entity.Todo) error {
 	result := tr.db.Create(todo)
 	if result.Error != nil {
-		return result.Error
+		return errors.New("cannot create todo with gorm: " + result.Error.Error())
 	}
 	return nil
 }
@@ -41,12 +42,15 @@ func (tr *todoRepo) CreateTodo(todo *entity.Todo) error {
 func (tr *todoRepo) DeleteTodo(todoID string) error {
 	result := tr.db.Delete(&entity.Todo{}, todoID)
 	if result.Error != nil {
-		return result.Error
+		return errors.New("cannot delete todo with gorm: " + result.Error.Error())
 	}
 	return nil
 }
 
 func (tr *todoRepo) UpdateTodo(todo *entity.Todo) error {
 	result := tr.db.Save(todo)
-	return result.Error
+	if result.Error != nil {
+		return errors.New("cannot update todo with gorm: " + result.Error.Error())
+	}
+	return nil
 }

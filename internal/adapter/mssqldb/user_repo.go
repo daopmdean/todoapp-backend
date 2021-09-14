@@ -1,6 +1,7 @@
 package mssqldb
 
 import (
+	"errors"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
 
@@ -18,10 +19,10 @@ type userRepo struct {
 	db *gorm.DB
 }
 
-func (ur *userRepo) SaveUser(user *entity.User) error {
+func (ur *userRepo) CreateUser(user *entity.User) error {
 	result := ur.db.Create(user)
 	if result.Error != nil {
-		return result.Error
+		return errors.New("cannot create user with gorm: " + result.Error.Error())
 	}
 	return nil
 }

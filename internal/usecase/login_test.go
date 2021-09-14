@@ -14,12 +14,10 @@ func createUserRepoMockForLogin() repo.UserRepo {
 			if username != "daopham" {
 				return nil
 			}
-
 			user := &entity.User{
 				Username: "daopham",
 			}
 			user.SetPassword("12345678")
-
 			return user
 		}).
 		Build()

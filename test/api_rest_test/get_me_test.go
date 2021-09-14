@@ -9,6 +9,8 @@ import (
 
 func TestGetMeSuccess(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	userRepo := serverRouter.GetUserRepo()
+	internal.SeedUserData(userRepo)
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/me",
@@ -44,6 +46,8 @@ func TestGetMeSuccess(t *testing.T) {
 
 func TestGetMeFailWithNoToken(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	userRepo := serverRouter.GetUserRepo()
+	internal.SeedUserData(userRepo)
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/me",
@@ -58,6 +62,8 @@ func TestGetMeFailWithNoToken(t *testing.T) {
 
 func TestGetMeFailWithWrongUsernameFromToken(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	userRepo := serverRouter.GetUserRepo()
+	internal.SeedUserData(userRepo)
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/me",

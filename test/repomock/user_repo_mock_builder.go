@@ -5,28 +5,26 @@ import (
 	"todoapp/internal/usecase/repo"
 )
 
-type userRepoMockBuilder struct {
-	getUserByUsernameMock func(string) *entity.User
-	saveUserMock          func(*entity.User) error
-}
-
 func NewUserRepoMockBuilder() *userRepoMockBuilder {
-	return new(userRepoMockBuilder)
+	return &userRepoMockBuilder{
+		&userRepoMock{},
+	}
 }
 
-func (urmb *userRepoMockBuilder) WithSaveUserMock(mockFunc func(*entity.User) error) *userRepoMockBuilder {
-	urmb.saveUserMock = mockFunc
+type userRepoMockBuilder struct {
+	userRepoMock *userRepoMock
+}
+
+func (urmb *userRepoMockBuilder) WithCreateUserMock(mockFunc func(*entity.User) error) *userRepoMockBuilder {
+	urmb.userRepoMock.createUserMock = mockFunc
 	return urmb
 }
 
 func (urmb *userRepoMockBuilder) WithGetUserByUsernameMock(mockFunc func(string) *entity.User) *userRepoMockBuilder {
-	urmb.getUserByUsernameMock = mockFunc
+	urmb.userRepoMock.getUserByUsernameMock = mockFunc
 	return urmb
 }
 
 func (urmb *userRepoMockBuilder) Build() repo.UserRepo {
-	return &userRepoMock{
-		saveUserMock:          urmb.saveUserMock,
-		getUserByUsernameMock: urmb.getUserByUsernameMock,
-	}
+	return urmb.userRepoMock
 }

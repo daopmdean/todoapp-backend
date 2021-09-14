@@ -7,6 +7,8 @@ import (
 
 func TestLoginSuccess(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	userRepo := serverRouter.GetUserRepo()
+	internal.SeedUserData(userRepo)
 	request := internal.Request{
 		Method: "POST",
 		Path:   "/api/auth/login",
@@ -32,6 +34,8 @@ func TestLoginSuccess(t *testing.T) {
 
 func TestLoginFail(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	userRepo := serverRouter.GetUserRepo()
+	internal.SeedUserData(userRepo)
 	request := internal.Request{
 		Method: "POST",
 		Path:   "/api/auth/login",

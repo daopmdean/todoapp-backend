@@ -49,7 +49,7 @@ func (ru *RegisterUsecase) Register(input RegisterInput) error {
 		return errors.New("cannot set user password: " + err.Error())
 	}
 
-	err = ru.userRepo.SaveUser(user)
+	err = ru.userRepo.CreateUser(user)
 	if err != nil {
 		return errors.New("cannot save user: " + err.Error())
 	}

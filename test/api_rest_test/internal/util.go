@@ -55,8 +55,6 @@ func (sr *serverRouter) HandleRequest(request Request) Response {
 func CreateServerRouterForApiTest() *serverRouter {
 	userRepo := memdb.NewUserRepo()
 	todoRepo := memdb.NewTodoRepo()
-	initUserData(userRepo)
-	initTodoData(todoRepo)
 
 	server := rest.NewServer(userRepo, todoRepo)
 	return &serverRouter{
@@ -65,7 +63,17 @@ func CreateServerRouterForApiTest() *serverRouter {
 		todoRepo: todoRepo,
 	}
 }
-func initUserData(userRepo repo.UserRepo) {
+
+func CheckIfTodoListContainsTodo(todos []entity.Todo, target entity.Todo) bool {
+	for _, todo := range todos {
+		if todo.Equals(&target) {
+			return true
+		}
+	}
+	return false
+}
+
+func SeedUserData(userRepo repo.UserRepo) {
 	dao := entity.User{
 		Username:  "daopham",
 		FirstName: "Dao",
@@ -78,37 +86,6 @@ func initUserData(userRepo repo.UserRepo) {
 		LastName:  "Pham",
 	}
 	hung.SetPassword("87654321")
-	userRepo.SaveUser(&dao)
-	userRepo.SaveUser(&hung)
-}
-
-func initTodoData(todoRepo repo.TodoRepo) {
-	daoTodo := entity.Todo{
-		Username: "daopham",
-		Content:  "Dao walking",
-		IsDone:   false,
-	}
-	daoTodo2 := entity.Todo{
-		Username: "daopham",
-		Content:  "Dao learning",
-		IsDone:   false,
-	}
-	hungTodo := entity.Todo{
-		Username: "hungpham",
-		Content:  "Hung working",
-		IsDone:   false,
-	}
-
-	todoRepo.CreateTodo(&daoTodo)
-	todoRepo.CreateTodo(&daoTodo2)
-	todoRepo.CreateTodo(&hungTodo)
-}
-
-func CheckIfTodoListContainsTodo(todos []entity.Todo, target entity.Todo) bool {
-	for _, todo := range todos {
-		if todo.Equals(&target) {
-			return true
-		}
-	}
-	return false
+	userRepo.CreateUser(&dao)
+	userRepo.CreateUser(&hung)
 }
