@@ -10,8 +10,6 @@ import (
 )
 
 func main() {
-	// userRepo := memdb.NewUserRepo()
-	// todoRepo := memdb.NewTodoRepo()
 	db, err := mssqldb.Connect()
 	if err != nil {
 		panic("can't connect to database")
