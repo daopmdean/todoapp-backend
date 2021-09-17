@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build . --file build/docker/Dockerfile --tag daopmdean/todoapp:latest
+
+      - name: Login to docker registry
+        run: docker login -u ${{ env.USERNAME }} -p ${{ env.PASSWORD }}
+
+      - name: Push to docker hub
+        run: docker push daopmdean/todoapp:latest
