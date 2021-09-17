@@ -16,8 +16,11 @@ test_entity:
 test_all:
 	@go test ./...
 
-build_docker_image:
+build_docker:
 	@docker build -t todoapp -f build/docker/Dockerfile .
+
+build_docker_test:
+	@docker build -t todoapp_test -f build/docker/Dockerfile.test .
 
 run_docker:
 	@docker run -it -p 5000:5000 todoapp
