@@ -23,12 +23,8 @@ func TestLoginSuccess(t *testing.T) {
 
 	response := serverRouter.HandleRequest(request)
 
-	expectedBody := `{"token":"daopham"}`
 	if response.Code != 200 {
 		t.Errorf("expected 200, got %d", response.Code)
-	}
-	if string(response.Body) != expectedBody {
-		t.Errorf("expected %s, got %s", expectedBody, string(response.Body))
 	}
 }
 

@@ -16,11 +16,12 @@ func TestToggleTodo(t *testing.T) {
 		IsDone:   false,
 	}
 	todoRepo.CreateTodo(newTodo)
+	tokenStr := internal.GenAccessToken("daopham")
 	request := internal.Request{
 		Method: "PUT",
 		Path:   "/api/todos/1234567890/toggle",
 		Headers: map[string]string{
-			"Authorization": "Bearer daopham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 
@@ -46,11 +47,12 @@ func TestUnauthorizedWhenToggleOtherUserTodo(t *testing.T) {
 		IsDone:   false,
 	}
 	todoRepo.CreateTodo(todo)
+	tokenStr := internal.GenAccessToken("hungpham")
 	request := internal.Request{
 		Method: "PUT",
 		Path:   "/api/todos/1234567890/toggle",
 		Headers: map[string]string{
-			"Authorization": "Bearer hungpham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 

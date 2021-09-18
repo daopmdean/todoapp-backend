@@ -4,10 +4,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
+	"time"
 	"todoapp/internal/adapter/http/rest"
 	"todoapp/internal/adapter/memdb"
 	"todoapp/internal/entity"
 	"todoapp/internal/usecase/repo"
+	"todoapp/internal/usecase/util/access_token"
 
 	"github.com/gin-gonic/gin"
 )
@@ -88,4 +90,12 @@ func SeedUserData(userRepo repo.UserRepo) {
 	hung.SetPassword("87654321")
 	userRepo.CreateUser(&dao)
 	userRepo.CreateUser(&hung)
+}
+
+func GenAccessToken(username string) string {
+	user := entity.User{
+		Username: username,
+	}
+	tokenStr, _ := access_token.CreateToken(&user, time.Now())
+	return tokenStr
 }

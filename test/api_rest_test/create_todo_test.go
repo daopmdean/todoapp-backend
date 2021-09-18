@@ -7,12 +7,13 @@ import (
 
 func TestCreateTodo(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
+	tokenStr := internal.GenAccessToken("daopham")
 	request := internal.Request{
 		Method: "POST",
 		Path:   "/api/todos",
 		Headers: map[string]string{
 			"Content-Type":  "application/json; charset=utf-8",
-			"Authorization": "Bearer daopham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 		Body: `{"content":"Wake up"}`,
 	}

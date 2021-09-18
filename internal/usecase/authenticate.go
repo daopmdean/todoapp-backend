@@ -1,6 +1,6 @@
 package usecase
 
-import "errors"
+import "todoapp/internal/usecase/util/access_token"
 
 func NewAuthenticationUsecase() *AuthenticationUsecase {
 	return &AuthenticationUsecase{}
@@ -9,10 +9,16 @@ func NewAuthenticationUsecase() *AuthenticationUsecase {
 type AuthenticationUsecase struct {
 }
 
-func (au *AuthenticationUsecase) AuthenticateWebAccessToken(accessToken string) (username string, err error) {
-	//TODO: implement jwt
-	if accessToken == "" {
-		return "", errors.New("empty access token")
+func (au *AuthenticationUsecase) AuthenticateWebAccessToken(accessToken string) (string, error) {
+	token, err := access_token.ParseToken(accessToken)
+	if err != nil {
+		return "", err
 	}
-	return accessToken, nil
+
+	data, err := access_token.ExtractTokenClaims(token)
+	if err != nil {
+		return "", err
+	}
+
+	return data.Username, nil
 }

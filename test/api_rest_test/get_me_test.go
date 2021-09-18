@@ -11,11 +11,12 @@ func TestGetMeSuccess(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
 	userRepo := serverRouter.GetUserRepo()
 	internal.SeedUserData(userRepo)
+	tokenStr := internal.GenAccessToken("daopham")
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/me",
 		Headers: map[string]string{
-			"Authorization": "Bearer daopham", //TODO: change after implement jwt
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 
@@ -60,15 +61,16 @@ func TestGetMeFailWithNoToken(t *testing.T) {
 	}
 }
 
-func TestGetMeFailWithWrongUsernameFromToken(t *testing.T) {
+func TestGetMeFailWithUnexistUsernameFromToken(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
 	userRepo := serverRouter.GetUserRepo()
 	internal.SeedUserData(userRepo)
+	tokenStr := internal.GenAccessToken("daophama")
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/me",
 		Headers: map[string]string{
-			"Authorization": "Bearer daophamaa", //TODO: change after implement jwt
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 
