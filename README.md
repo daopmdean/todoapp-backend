@@ -1,8 +1,20 @@
 # todoapp-backend
 
-API for todo application<br>
-Programming language: [Go](https://golang.org/)<br>
-Web Framework: [Gin](https://github.com/gin-gonic/gin)
+Rest API for todoapp written in [Golang](https://golang.org/), using Clean Architecture and CI/CD (includes unit tests and integration tests).
+
+Using:
+
+- Web framework: [Gin](https://github.com/gin-gonic/gin)
+- Authentication: [JWT](https://jwt.io/)
+- Database (choose one out of three options):
+  - In Memory DB
+  - Microsoft SQL Server (using [Gorm](https://gorm.io/docs/))
+  - MongoDB (coming soon)
+- CI/CD:
+  - GitHub Actions (Docker Image for testing)
+  - Microsoft Azure Web App (Docker Image for deployment)
+
+> Note: Config to change database (default to In Memory DB)
 
 ## Getting Started
 
