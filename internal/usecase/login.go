@@ -2,7 +2,9 @@ package usecase
 
 import (
 	"errors"
+	"time"
 	"todoapp/internal/usecase/repo"
+	"todoapp/internal/usecase/util/access_token"
 )
 
 func NewLoginUsecase(ur repo.UserRepo) *LoginUsecase {
@@ -25,8 +27,13 @@ func (lu *LoginUsecase) Login(input LoginInput) (*LoginOutput, error) {
 		return nil, errors.New("username or password incorrect")
 	}
 
+	token, err := access_token.CreateToken(user, time.Now())
+	if err != nil {
+		return nil, errors.New("cannot create jwt token: " + err.Error())
+	}
+
 	return &LoginOutput{
-		Token: user.Username,
+		Token: token,
 	}, nil
 }
 

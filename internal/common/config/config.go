@@ -18,3 +18,12 @@ func GetPort() int {
 
 	return port
 }
+
+func GetAccessSecret() string {
+	accessSecret := os.Getenv("ACCESS_SECRET")
+	if accessSecret == "" {
+		return "JwtSecret"
+	}
+
+	return accessSecret
+}

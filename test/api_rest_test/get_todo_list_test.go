@@ -12,11 +12,12 @@ func TestGetTodoList(t *testing.T) {
 	serverRouter := internal.CreateServerRouterForApiTest()
 	todoRepo := serverRouter.GetTodoRepo()
 	seedDataForTodoListTest(todoRepo)
+	tokenStr := internal.GenAccessToken("daopham")
 	request := internal.Request{
 		Method: "GET",
 		Path:   "/api/todos",
 		Headers: map[string]string{
-			"Authorization": "Bearer daopham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 

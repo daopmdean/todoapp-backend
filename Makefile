@@ -24,3 +24,5 @@ build_docker_test:
 
 run_docker:
 	@docker run -it -p 5000:5000 todoapp
+
+.PHONY: run build test_api test_usecase test_entity test_all build_docker build_docker_test run_docker

@@ -16,11 +16,12 @@ func TestDeleteTodo(t *testing.T) {
 		IsDone:   false,
 	}
 	todoRepo.CreateTodo(todo)
+	tokenStr := internal.GenAccessToken("daopham")
 	request := internal.Request{
 		Method: "DELETE",
 		Path:   "/api/todos/1234567890",
 		Headers: map[string]string{
-			"Authorization": "Bearer daopham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 
@@ -45,12 +46,13 @@ func TestUnauthorizedWhenDeleteOtherUserTodo(t *testing.T) {
 		Content:  "Do abc",
 		IsDone:   false,
 	}
+	tokenStr := internal.GenAccessToken("hungpham")
 	todoRepo.CreateTodo(todo)
 	request := internal.Request{
 		Method: "DELETE",
 		Path:   "/api/todos/1234567890",
 		Headers: map[string]string{
-			"Authorization": "Bearer hungpham",
+			"Authorization": "Bearer " + tokenStr,
 		},
 	}
 
