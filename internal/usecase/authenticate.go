@@ -1,6 +1,9 @@
 package usecase
 
-import "todoapp/internal/usecase/util/access_token"
+import (
+	"time"
+	"todoapp/internal/usecase/util/access_token"
+)
 
 func NewAuthenticationUsecase() *AuthenticationUsecase {
 	return &AuthenticationUsecase{}
@@ -9,13 +12,8 @@ func NewAuthenticationUsecase() *AuthenticationUsecase {
 type AuthenticationUsecase struct {
 }
 
-func (au *AuthenticationUsecase) AuthenticateWebAccessToken(accessToken string) (string, error) {
-	token, err := access_token.ParseToken(accessToken)
-	if err != nil {
-		return "", err
-	}
-
-	data, err := access_token.ExtractTokenClaims(token)
+func (au *AuthenticationUsecase) AuthenticateWebAccessToken(accessToken string, verifyTime time.Time) (username string, err error) {
+	data, err := access_token.VerifyToken(accessToken, verifyTime)
 	if err != nil {
 		return "", err
 	}
