@@ -1,10 +1,10 @@
 package entity
 
 type Todo struct {
-	ID       string `json:"id" gorm:"primaryKey"`
-	Username string `json:"username"`
-	Content  string `json:"content"`
-	IsDone   bool   `json:"isDone"`
+	ID       string `json:"id" bson:"id,omitempty" gorm:"primaryKey"`
+	Username string `json:"username" bson:"username,omitempty"`
+	Content  string `json:"content" bson:"content,omitempty"`
+	IsDone   bool   `json:"isDone" bson:"isDone,omitempty"`
 }
 
 func (t *Todo) Toggle() {
