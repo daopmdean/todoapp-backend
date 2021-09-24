@@ -49,7 +49,7 @@ func TestLoginFailWithInvalidUsername(t *testing.T) {
 	_, err := lu.Login(li)
 
 	if err == nil {
-		t.Errorf("expected error, got %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
 
@@ -64,6 +64,6 @@ func TestLoginFailWithInvalidPassword(t *testing.T) {
 	_, err := lu.Login(li)
 
 	if err == nil {
-		t.Errorf("expected error, got %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
