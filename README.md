@@ -114,7 +114,16 @@ export DB_MODE=mongodb
 
 Setup env variables
 
-- ATLAS_URI: Connection string to MongoDB Atlas
+- MONGO_URI: Connection string to MongoDB
+- MONGO_DB_NAME: Database name
+
+Run init mongodb to create indexes
+
+> Note: this command should run only once when initialize MongoDB
+
+```zsh
+make init_mongodb
+```
 
 Run the program
 
