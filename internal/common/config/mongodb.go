@@ -2,10 +2,18 @@ package config
 
 import "os"
 
-func GetAtlasUri() string {
-	uri := os.Getenv("ATLAS_URI")
+func GetMongoUri() string {
+	uri := os.Getenv("MONGO_URI")
 	if uri == "" {
-		panic("Please provide ATLAS_URI environment")
+		panic("Please provide MONGO_URI environment")
+	}
+	return uri
+}
+
+func GetMongoDBName() string {
+	uri := os.Getenv("MONGO_DB_NAME")
+	if uri == "" {
+		return "todoapp"
 	}
 	return uri
 }

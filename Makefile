@@ -1,8 +1,11 @@
 run:
 	@go run cmd/server/main.go
-	
+
 build:
 	@go build -o main cmd/server/main.go
+
+init_mongodb:
+	@go run cmd/init/main.go mongodb
 
 test_api:
 	@go test ./test/...
@@ -25,4 +28,4 @@ build_docker_test:
 run_docker:
 	@docker run -it -p 5000:5000 todoapp
 
-.PHONY: run build test_api test_usecase test_entity test_all build_docker build_docker_test run_docker
+.PHONY: run build init_mongodb test_api test_usecase test_entity test_all build_docker build_docker_test run_docker
