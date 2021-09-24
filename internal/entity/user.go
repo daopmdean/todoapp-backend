@@ -6,11 +6,11 @@ import (
 )
 
 type User struct {
-	Username     string `gorm:"primaryKey"`
-	Password     string
-	PasswordSalt string
-	FirstName    string
-	LastName     string
+	Username     string `bson:"username,omitempty" gorm:"primaryKey"`
+	Password     string `bson:"password,omitempty"`
+	PasswordSalt string `bson:"passwordSalt,omitempty"`
+	FirstName    string `bson:"firstName,omitempty"`
+	LastName     string `bson:"lastName,omitempty"`
 }
 
 func (u *User) SetPassword(password string) error {

@@ -9,7 +9,7 @@ Using:
 - Database (choose one out of three options):
   - In Memory DB
   - Microsoft SQL Server (using [Gorm](https://gorm.io/docs/))
-  - MongoDB (coming soon)
+  - MongoDB
 - CI/CD:
   - GitHub Actions (Docker Image for testing)
   - Microsoft Azure Web App (Docker Image for deployment)
@@ -32,6 +32,7 @@ This project support to run on
 
 - Memory Database
 - Microsoft SQL Server Database
+- MongoDB
 
 Setup env on zsh
 
@@ -105,6 +106,31 @@ Run the program
 make run
 ```
 
+### MongoDB
+
+```zsh
+export DB_MODE=mongodb
+```
+
+Setup env variables
+
+- MONGO_URI: Connection string to MongoDB
+- MONGO_DB_NAME: Database name
+
+Run init mongodb to create indexes
+
+> Note: this command should run only once when initialize MongoDB
+
+```zsh
+make init_mongodb
+```
+
+Run the program
+
+```zsh
+make run
+```
+
 ## Test
 
 To run all tests
@@ -148,6 +174,7 @@ todoapp
 │       └── http/rest
 │       └── memdb
 │       └── mssqldb
+│       └── mongodb
 │   └── common/config
 │   └── entity
 │   └── usecase
@@ -164,4 +191,5 @@ todoapp
 - http/rest: store api handle http request with gin-gonic framework
 - memdb: implementations for memory db
 - mssqldb: implementations for microsoft sql server db
+- mongodb: implementations for mongodb
 - test: store test cases

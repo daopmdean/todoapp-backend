@@ -12,6 +12,11 @@ type AuthorizationUsecase struct {
 
 func (au *AuthorizationUsecase) CheckIfUserIsAllowedToModifyTodo(username, todoID string) bool {
 	todoOwner := au.todoRepo.GetTodoByID(todoID)
+
+	if todoOwner == nil {
+		return false
+	}
+
 	if todoOwner.Username == username {
 		return true
 	}

@@ -46,7 +46,7 @@ func TestRegisterFailWhenPasswordLessThan8Chars(t *testing.T) {
 	err := ru.Register(u)
 
 	if err == nil {
-		t.Errorf("expected error, got: %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
 
@@ -63,7 +63,7 @@ func TestRegisterFailWhenUsernameAndPasswordEmpty(t *testing.T) {
 	err := ru.Register(u)
 
 	if err == nil {
-		t.Errorf("expected error, got: %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
 
@@ -80,7 +80,7 @@ func TestRegisterFailWhenUsernameEmpty(t *testing.T) {
 	err := ru.Register(u)
 
 	if err == nil {
-		t.Errorf("expected error, got: %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
 
@@ -97,6 +97,6 @@ func TestRegisterFailWhenPasswordEmpty(t *testing.T) {
 	err := ru.Register(u)
 
 	if err == nil {
-		t.Errorf("expected error, got: %v", err)
+		t.Errorf("expected error, got nil error")
 	}
 }
