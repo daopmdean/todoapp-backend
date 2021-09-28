@@ -22,7 +22,7 @@ type userRepo struct {
 }
 
 func (ur *userRepo) CreateUser(user *entity.User) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	_, err := ur.usersCollection.InsertOne(ctx, user)
@@ -33,7 +33,7 @@ func (ur *userRepo) CreateUser(user *entity.User) error {
 }
 
 func (ur *userRepo) GetUserByUsername(username string) *entity.User {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	var user entity.User
