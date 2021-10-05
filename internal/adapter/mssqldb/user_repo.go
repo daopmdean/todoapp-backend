@@ -29,6 +29,6 @@ func (ur *userRepo) CreateUser(user *entity.User) error {
 
 func (ur *userRepo) GetUserByUsername(username string) *entity.User {
 	var user entity.User
-	ur.db.First(&user, username)
+	ur.db.First(&user, "username = ?", username)
 	return &user
 }
